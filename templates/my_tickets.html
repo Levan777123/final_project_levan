@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <title>ჩემი ბილეთები</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2 class="mb-4">🎟️ ჩემი ბილეთები</h2>
+    <a href="{{ url_for('home') }}" class="btn btn-secondary mb-3">⬅️ მთავარი</a>
+
+    {% if orders %}
+        <ul class="list-group">
+            {% for order in orders %}
+                {% if order.movie %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ url_for('static', filename='uploads/' + order.movie.image) }}" alt="movie" width="60" class="me-3 rounded">
+                        <div>
+                            <h5 class="mb-1">{{ order.movie.title }}</h5>
+                            <small>დრო: {{ order.movie.showtime }}</small><br>
+                            <small>დაჯავშნა: {{ order.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                        </div>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">{{ order.movie.price * order.quantity }} ₾</span>
+                </li>
+                {% else %}
+                <li class="list-group-item text-danger">
+                    ❌ ფილმი ამ ბილეთზე არ არსებობს (შეიძლება წაშლილია).
+                </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="alert alert-info">ჯერჯერობით არ გაქვს ბილეთები დაჯავშნილი.</div>
+    {% endif %}
+</div>
+</body>
+</html>
+

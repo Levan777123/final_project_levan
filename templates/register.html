@@ -1,0 +1,19 @@
+<!-- templates/register.html -->
+{% extends "layout.html" %}
+{% block title %}რეგისტრაცია{% endblock %}
+
+{% block content %}
+<h2>რეგისტრაცია</h2>
+<form method="POST">
+    <input name="name" class="form-control mb-2" placeholder="სახელი" required>
+    <input name="age" type="number" class="form-control mb-2" placeholder="ასაკი" required>
+    <input name="email" type="email" class="form-control mb-2" placeholder="ელ. ფოსტა" required>
+    <input name="password" type="password" class="form-control mb-2" placeholder="პაროლი" required>
+    <select id="role" name="role">
+            <option value="user">User</option>
+            <option value="Admin">Admin</option>
+    </select>
+    <button class="btn btn-primary">რეგისტრაცია</button>
+</form>
+<a href="/login">გაქვს უკვე ექაუნთი?</a>
+{% endblock %}
