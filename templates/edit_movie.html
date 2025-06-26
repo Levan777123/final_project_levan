@@ -1,38 +1,45 @@
-<!-- templates/edit_movie.html -->
-<!DOCTYPE html>
-<html lang="ka">
-<head>
-    <meta charset="UTF-8">
-    <title>ფილმის რედაქტირება</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+{% extends 'base.html' %}
+
+{% block title %}Edit Movie{% endblock %}
+
+{% block content %}
 <div class="container mt-4">
-    <h2>🎬 ფილმის რედაქტირება</h2>
+    <h2 class="mb-4">🎬 Edit Movie</h2>
+
     <form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
-            <label class="form-label">დასახელება</label>
+            <label class="form-label">Title</label>
             <input type="text" name="title" class="form-control" value="{{ movie.title }}" required>
         </div>
+
         <div class="mb-3">
-            <label class="form-label">აღწერა</label>
+            <label class="form-label">Description</label>
             <textarea name="description" class="form-control" required>{{ movie.description }}</textarea>
         </div>
+
         <div class="mb-3">
-            <label class="form-label">ფასი</label>
+            <label class="form-label">Price (₾)</label>
             <input type="number" name="price" step="0.01" class="form-control" value="{{ movie.price }}" required>
         </div>
+
         <div class="mb-3">
-            <label class="form-label">ჩვენების დრო</label>
+            <label class="form-label">Showtime</label>
             <input type="text" name="showtime" class="form-control" value="{{ movie.showtime }}" required>
         </div>
+
         <div class="mb-3">
-            <label class="form-label">ახალი სურათი (არასავალდებულო)</label>
+            <label class="form-label">New Image (optional)</label>
             <input type="file" name="image" class="form-control">
         </div>
-        <button type="submit" class="btn btn-success">შენახვა</button>
-        <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">გაუქმება</a>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-success">
+                <i class="fa-solid fa-floppy-disk me-1"></i> Save
+            </button>
+            <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">
+                <i class="fa-solid fa-xmark me-1"></i> Cancel
+            </a>
+        </div>
     </form>
 </div>
-</body>
-</html>
+{% endblock %}

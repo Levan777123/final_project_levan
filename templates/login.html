@@ -1,13 +1,20 @@
-<!-- templates/login.html -->
-{% extends "layout.html" %}
-{% block title %}შესვლა{% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
 
 {% block content %}
-<h2>შესვლა</h2>
-<form method="POST">
-    <input name="email" type="email" class="form-control mb-2" placeholder="ელ. ფოსტა" required>
-    <input name="password" type="password" class="form-control mb-2" placeholder="პაროლი" required>
-    <button class="btn btn-success">შესვლა</button>
-</form>
-<a href="/register">არ გაქვს ექაუნთი?</a>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">Login</h2>
+        <form method="POST">
+            <input name="email" type="email" class="form-control mb-3" placeholder="Email" required>
+            <input name="password" type="password" class="form-control mb-3" placeholder="Password" required>
+            <button class="btn btn-primary w-100">Login</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="/register" class="text-decoration-none">Don't have an account? Sign up</a>
+        </div>
+    </div>
+
+</div>
 {% endblock %}

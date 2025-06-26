@@ -1,65 +1,71 @@
-<!DOCTYPE html>
-<html lang="ka">
-<head>
-    <meta charset="UTF-8">
-    <title>კინოთეატრი</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <a href="{{ url_for('profile') }}" class="btn btn-outline-dark me-2">👤 პროფილი</a>
-        <a href="{{ url_for('checkout') }}" class="btn btn-warning">🛒 კალათა</a>
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <div class="alert alert-info">
-              {% for message in messages %}
-                <div>{{ message }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
-        {% endwith %}
+{% extends 'base.html' %}
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <h1>მოგესალმები, {{ current_user.name }}!</h1>
-                <p>შენი ბალანსია: <strong>{{ current_user.balance }} ₾</strong></p>
-            </div>
-            <div>
+{% block title %}Movies{% endblock %}
 
-                <a href="{{ url_for('logout') }}" class="btn btn-secondary">გამოსვლა</a>
-                {% if current_user.role == 'Admin' %}
-                    <a href="{{ url_for('admin_panel') }}" class="btn btn-warning ms-2">ადმინ პანელი</a>
-                {% endif %}
-            </div>
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Top action buttons -->
+    <div class="mb-3">
+        <a href="{{ url_for('profile') }}" class="btn btn-outline-dark me-2">👤 Profile</a>
+        <a href="{{ url_for('checkout') }}" class="btn btn-warning">🛒 Cart</a>
+    </div>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-info">
+          {% for message in messages %}
+            <div>{{ message }}</div>
+          {% endfor %}
         </div>
+      {% endif %}
+    {% endwith %}
 
-        <h2 class="mb-4">🎥 ფილმების სია</h2>
-        <div class="row">
-            {% for movie in movies %}
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <img src="{{ url_for('static', filename='uploads/' + movie.image) }}" class="card-img-top" alt="{{ movie.title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ movie.title }}</h5>
-                            <p class="card-text">{{ movie.description }}</p>
-                            <p><strong>ფასი:</strong> {{ movie.price }} ₾</p>
-                            <p><strong>დრო:</strong> {{ movie.showtime }}</p>
-                            {% if current_user.balance >= movie.price %}
-                                <form method="POST" action="{{ url_for('book_movie', movie_id=movie.id) }}">
-                                    <button type="submit" class="btn btn-primary">დაჯავშნე</button>
-                                    <a href="{{ url_for('add_to_cart', movie_id=movie.id) }}" class="btn btn-outline-primary">➕ კალათაში</a>
-                                </form>
-                            {% else %}
-                                <button class="btn btn-secondary" disabled>ბალანსი არ არის საკმარისი</button>
-                            {% endif %}
-                        </div>
+    <!-- Greeting -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1 class="h3 mb-1">Hello, {{ current_user.name }}!</h1>
+            <p class="mb-0">Your balance: <strong>{{ current_user.balance }} ₾</strong></p>
+        </div>
+        <div>
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+            {% if current_user.role == 'Admin' %}
+                <a href="{{ url_for('admin_panel') }}" class="btn btn-danger ms-2">Admin Panel</a>
+            {% endif %}
+        </div>
+    </div>
 
+    <!-- Movie list -->
+    <h2 class="mb-4">🎥 Movie List</h2>
+    <div class="row">
+        {% for movie in movies %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="{{ url_for('static', filename='uploads/' + movie.image) }}"
+                         class="card-img-top"
+                         alt="{{ movie.title }}">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ movie.title }}</h5>
+                        <p class="card-text">{{ movie.description }}</p>
+                        <p><strong>Price:</strong> {{ movie.price }} ₾</p>
+                        <p><strong>Showtime:</strong> {{ movie.showtime }}</p>
 
+                        {% if current_user.balance >= movie.price %}
+                            <form method="POST" action="{{ url_for('book_movie', movie_id=movie.id) }}" class="mt-auto">
+                                <button type="submit" class="btn btn-primary w-100 mb-2">Book Now</button>
+                                <a href="{{ url_for('add_to_cart', movie_id=movie.id) }}"
+                                   class="btn btn-outline-primary w-100">➕ Add to Cart</a>
+                            </form>
+                        {% else %}
+                            <button class="btn btn-secondary w-100 mt-auto" disabled>Insufficient Balance</button>
+                        {% endif %}
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-        <a href="{{ url_for('my_tickets') }}" class="btn btn-info mb-3">📄 ჩემი ბილეთები</a>
+            </div>
+        {% endfor %}
     </div>
-</body>
-</html>
+
+    <a href="{{ url_for('my_tickets') }}" class="btn btn-info mb-3">📄 My Tickets</a>
+</div>
+{% endblock %}

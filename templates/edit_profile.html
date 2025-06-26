@@ -1,33 +1,29 @@
-<!DOCTYPE html>
-<html lang="ka">
-<head>
-    <meta charset="UTF-8">
-    <title>პროფილის რედაქტირება</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
 <div class="container mt-5">
-    <h2>✏️ პროფილის რედაქტირება</h2>
+    <h2>✏️ Edit Profile</h2>
     <form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
-            <label class="form-label">სახელი</label>
+            <label class="form-label">Name</label>
             <input type="text" class="form-control" name="name" value="{{ user.name }}" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">ასაკი</label>
+            <label class="form-label">Age</label>
             <input type="number" class="form-control" name="age" value="{{ user.age }}" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">ახალი პაროლი (არასავალდებულო)</label>
+            <label class="form-label">New Password (optional)</label>
             <input type="password" class="form-control" name="password">
         </div>
         <div class="mb-3">
-            <label class="form-label">პროფილის სურათი</label>
+            <label class="form-label">Profile Picture</label>
             <input type="file" class="form-control" name="image">
         </div>
-        <button type="submit" class="btn btn-success">განახლება</button>
-        <a href="{{ url_for('profile') }}" class="btn btn-secondary">გაუქმება</a>
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="{{ url_for('profile') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,40 @@
+
+:root {
+  --accent: #ff5722;
+  --accent-dark: #e64a19;
+  --nav-bg: #121f3d;
+  --footer-bg: #0a1328;
+}
+
+
+.text-accent {
+  color: var(--accent);
+}
+.btn-accent {
+  background: var(--accent);
+  color: white;
+  border: none;
+}
+.btn-accent:hover {
+  background: var(--accent-dark);
+  color: white;
+}
+
+.movie-nav {
+  background: linear-gradient(135deg, var(--nav-bg), #1f2f5e);
+}
+
+
+.hero {
+  background: linear-gradient(rgba(18, 31, 61, 0.8), rgba(18, 31, 61, 0.8)),
+              url("https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1400&q=80")
+              center/cover no-repeat;
+  min-height: 75vh;
+}
+
+
+
+
+.movie-footer {
+  background: var(--footer-bg);
+}

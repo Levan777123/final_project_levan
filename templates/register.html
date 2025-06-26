@@ -1,19 +1,27 @@
-<!-- templates/register.html -->
-{% extends "layout.html" %}
-{% block title %}რეგისტრაცია{% endblock %}
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
 
 {% block content %}
-<h2>რეგისტრაცია</h2>
-<form method="POST">
-    <input name="name" class="form-control mb-2" placeholder="სახელი" required>
-    <input name="age" type="number" class="form-control mb-2" placeholder="ასაკი" required>
-    <input name="email" type="email" class="form-control mb-2" placeholder="ელ. ფოსტა" required>
-    <input name="password" type="password" class="form-control mb-2" placeholder="პაროლი" required>
-    <select id="role" name="role">
-            <option value="user">User</option>
-            <option value="Admin">Admin</option>
-    </select>
-    <button class="btn btn-primary">რეგისტრაცია</button>
-</form>
-<a href="/login">გაქვს უკვე ექაუნთი?</a>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">Register</h2>
+        <form method="POST">
+            <input name="name" class="form-control mb-3" placeholder="Name" required>
+            <input name="age" type="number" class="form-control mb-3" placeholder="Age" required>
+            <input name="email" type="email" class="form-control mb-3" placeholder="Email" required>
+            <input name="password" type="password" class="form-control mb-3" placeholder="Password" required>
+
+            <select id="role" name="role" class="form-select mb-3">
+                <option value="user">User</option>
+                <option value="Admin">Admin</option>
+            </select>
+
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="/login" class="text-decoration-none">Already have an account? Log in</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

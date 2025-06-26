@@ -48,12 +48,13 @@ class Order(db.Model):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
 @app.route("/")
-@login_required
 def home():
-    movies = Movie.query.filter_by(available=True).all()
-    return render_template("home.html", movies=movies)
+    if current_user.is_authenticated:
+        movies = Movie.query.filter_by(available=True).all()
+        return render_template("home.html", movies=movies)
+    return render_template("main_home.html")
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -62,38 +63,30 @@ def register():
         age = int(request.form.get("age"))
         email = request.form.get("email")
         role = request.form["role"]
-
         password = generate_password_hash(request.form.get("password"))
 
-
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
+        if User.query.filter_by(email=email).first():
             return "მომხმარებელი უკვე არსებობს"
 
-        if role == "Admin":
-            new_user = User(name=name, password=password, age = age, email=email, role="Admin")
-        else:
-            new_user = User(name=name, password=password, age=age, email=email, role="user")
-
+        new_user = User(name=name, password=password, age=age, email=email, role=role if role == "Admin" else "user")
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)
-        return redirect(url_for('home'))
+        return redirect(url_for("home"))
     return render_template("register.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-
         email = request.form.get("email")
         password = request.form.get("password")
         user = User.query.filter_by(email=email).first()
+
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for('home'))
-        else:
-            return "ელ. ფოსტა ან პაროლი არასწორია"
-
+            return redirect(url_for("home"))
+        return "ელ. ფოსტა ან პაროლი არასწორია"
     return render_template("login.html")
 
 @app.route("/logout")
@@ -157,7 +150,7 @@ def add_movie():
 @app.route("/admin")
 @login_required
 def admin_panel():
-    if current_user.role == "user":
+    if current_user.role.lower() != "admin":
         return "დაშვება მხოლოდ ადმინებისთვის", 403
 
     movies = Movie.query.all()
